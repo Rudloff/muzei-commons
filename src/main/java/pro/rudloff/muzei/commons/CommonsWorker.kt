@@ -25,7 +25,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import pro.rudloff.muzei.commons.BuildConfig.UNSPLASH_AUTHORITY
 import com.google.android.apps.muzei.api.provider.Artwork
 import com.google.android.apps.muzei.api.provider.ProviderContract
 import java.io.IOException
@@ -36,7 +35,7 @@ class CommonsWorker(
 ) : Worker(context, workerParams) {
 
     companion object {
-        private const val TAG = "UnsplashExample"
+        private const val TAG = "MuzeiCommons"
 
         internal fun enqueueLoad() {
             val workManager = WorkManager.getInstance()
@@ -52,7 +51,7 @@ class CommonsWorker(
         val images = try {
             CommonsService.todayQuery().query.pages[0].images
         } catch (e: IOException) {
-            Log.w(TAG, "Error reading Unsplash response", e)
+            Log.w(TAG, "Error reading Mediawiki API response", e)
             return Result.retry()
         }
 
@@ -64,19 +63,19 @@ class CommonsWorker(
         val photo = try {
             CommonsService.photoInfo().query.pages[0].imageinfo?.get(0)
         } catch (e: IOException) {
-            Log.w(TAG, "Error reading Unsplash response", e)
+            Log.w(TAG, "Error reading Mediawiki API response", e)
             return Result.retry()
         }
 
         val providerClient = ProviderContract.getProviderClient(
-                applicationContext, UNSPLASH_AUTHORITY)
+                applicationContext, "pro.rudloff.muzei.commons")
         val attributionString = applicationContext.getString(R.string.attribution)
         providerClient.addArtwork(
             Artwork().apply {
-                // token = photo.id
-                title = photo?.canonicaltitle
+                token = photo?.url
+                title = photo?.canonicaltitle?.replace("File:", "")
                 byline = photo?.user
-                attribution = "Wikimedia Commons"
+                attribution = attributionString
                 persistentUri = photo?.url?.toUri()
                 webUri = photo?.descriptionurl?.toUri()
             }

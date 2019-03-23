@@ -35,12 +35,12 @@
             </intent-filter>
             <meta-data
                 android:name="replacement"
-                android:value="${unsplashAuthority}"/>
+                android:value="pro.rudloff.muzei.commons"/>
         </service>
 
         <provider
             android:name="pro.rudloff.muzei.commons.CommonsArtProvider"
-            android:authorities="${unsplashAuthority}"
+            android:authorities="pro.rudloff.muzei.commons"
             android:label="@string/name"
             android:description="@string/description"
             android:exported="true"

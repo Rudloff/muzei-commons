@@ -21,7 +21,6 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Path
 import java.io.IOException
 
 internal interface CommonsService {
@@ -29,15 +28,7 @@ internal interface CommonsService {
     companion object {
 
         private fun createService(): CommonsService {
-            val okHttpClient = OkHttpClient.Builder()
-                    .addInterceptor { chain ->
-                        var request = chain.request()
-                        val url = request.url().newBuilder()
-                                .addQueryParameter("client_id", CONSUMER_KEY).build()
-                        request = request.newBuilder().url(url).build()
-                        chain.proceed(request)
-                    }
-                    .build()
+            val okHttpClient = OkHttpClient.Builder().build()
 
             val retrofit = Retrofit.Builder()
                     .baseUrl("https://commons.wikimedia.org/")
@@ -59,11 +50,6 @@ internal interface CommonsService {
             return createService().photoInfo.execute().body()
                     ?: throw IOException("Response was null")
         }
-
-        @Throws(IOException::class)
-        internal fun trackDownload(url: String) {
-            createService().trackDownload(url).execute()
-        }
     }
 
     @get:GET("w/api.php?action=query&prop=images&titles=Template:Potd/2019-03-23&format=json&imlimit=1&formatversion=2")
@@ -71,9 +57,6 @@ internal interface CommonsService {
 
     @get:GET("w/api.php?action=query&prop=imageinfo&titles=File:Vents%20du%20Sud%20-%20Le%20Grau-du-Roi%2004.jpg&format=json&iiprop=url|user|canonicaltitle&formatversion=2")
     val photoInfo: Call<Response>
-
-    @GET("{url}")
-    fun trackDownload(@Path("id") photoId: String): Call<Any>
 
     data class Response(
         val query: Query

@@ -17,9 +17,6 @@
 <resources>
     <string name="app_name">Wikimedia Commons for Muzei</string>
     <string name="name">Wikimedia Commons</string>
-    <string name="description">Popular photos from Unsplash</string>
-    <string name="attribution">Photo on Unsplash</string>
-    <string name="action_view_profile">View %s\'s profile</string>
-    <string name="action_visit_unsplash">Visit Unsplash</string>
-    <string name="unsplash_link">https://unsplash.com/</string>
+    <string name="description">Picture of the day from Wikimedia Commons</string>
+    <string name="attribution">Wikimedia Commons</string>
 </resources>

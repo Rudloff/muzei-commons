@@ -55,10 +55,6 @@ android {
 
     defaultConfig {
         minSdkVersion 19
-
-        def unsplashAuthorityValue = "com.example.muzei.exampleunsplash"
-        manifestPlaceholders = [unsplashAuthority: unsplashAuthorityValue]
-        buildConfigField "String", "UNSPLASH_AUTHORITY", "\"${unsplashAuthorityValue}\""
     }
 
     compileOptions {
