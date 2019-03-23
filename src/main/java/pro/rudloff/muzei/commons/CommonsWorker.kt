@@ -61,7 +61,7 @@ class CommonsWorker(
         }
 
         val photo = try {
-            CommonsService.photoInfo().query.pages[0].imageinfo?.get(0)
+            CommonsService.photoInfo(images[0].title).query.pages[0].imageinfo?.get(0)
         } catch (e: IOException) {
             Log.w(TAG, "Error reading Mediawiki API response", e)
             return Result.retry()
