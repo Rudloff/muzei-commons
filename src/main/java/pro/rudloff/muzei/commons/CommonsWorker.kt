@@ -18,7 +18,7 @@ package pro.rudloff.muzei.commons
 
 import android.content.Context
 import android.util.Log
-import androidx.core.net.toUri
+import android.net.Uri
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
@@ -76,8 +76,8 @@ class CommonsWorker(
                 title = photo?.canonicaltitle?.replace("File:", "")
                 byline = photo?.user
                 attribution = attributionString
-                persistentUri = photo?.thumburl?.toUri()
-                webUri = photo?.descriptionurl?.toUri()
+                persistentUri = Uri.parse(photo?.thumburl)
+                webUri = Uri.parse(photo?.descriptionurl)
             }
         )
         return Result.success()
