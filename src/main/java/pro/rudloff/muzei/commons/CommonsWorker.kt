@@ -76,7 +76,7 @@ class CommonsWorker(
                 title = photo?.canonicaltitle?.replace("File:", "")
                 byline = photo?.user
                 attribution = attributionString
-                persistentUri = photo?.url?.toUri()
+                persistentUri = photo?.thumburl?.toUri()
                 webUri = photo?.descriptionurl?.toUri()
             }
         )

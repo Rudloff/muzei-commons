@@ -73,7 +73,8 @@ internal interface CommonsService {
         @Query("format") format: String = "json",
         @Query("imlimit") imlimit: Int = 1,
         @Query("formatversion") formatversion: Int = 2,
-        @Query("iiprop") iiprop: String = ""
+        @Query("iiprop") iiprop: String = "",
+        @Query("iiurlwidth") iiurlwidth: Int = 1920
     ): Call<Response>
 
     data class Response(
@@ -97,6 +98,7 @@ internal interface CommonsService {
         val url: String,
         val user: String,
         val descriptionurl: String,
+        val thumburl: String,
         val canonicaltitle: String
     )
 }
