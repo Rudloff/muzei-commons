@@ -74,7 +74,7 @@ internal interface CommonsService {
         @Query("imlimit") imlimit: Int = 1,
         @Query("formatversion") formatversion: Int = 2,
         @Query("iiprop") iiprop: String = "",
-        @Query("iiurlwidth") iiurlwidth: Int = 1920
+        @Query("iiurlheight") iiurlheight: Int = 1920
     ): Call<Response>
 
     data class Response(
