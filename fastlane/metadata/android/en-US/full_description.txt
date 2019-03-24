@@ -1,0 +1,1 @@
+This is a <a href="http://muzei.co/">Muzei</a> plugin that displays the <a href="https://commons.wikimedia.org/">Wikimedia Commons</a> picture of the day.

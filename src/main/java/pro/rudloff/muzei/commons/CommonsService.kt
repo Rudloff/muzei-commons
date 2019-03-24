@@ -21,7 +21,11 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 internal interface CommonsService {
 
@@ -41,28 +45,43 @@ internal interface CommonsService {
 
         @Throws(IOException::class)
         internal fun todayQuery(): CommonsService.Response {
-            return createService().todayQuery.execute().body()
-                    ?: throw IOException("Response was null")
+            return createService().api(
+                action = "query",
+                prop = "images",
+                titles = "Template:Potd/" + SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+            ).execute().body()
+                ?: throw IOException("Response was null")
         }
 
         @Throws(IOException::class)
-        internal fun photoInfo(): CommonsService.Response {
-            return createService().photoInfo.execute().body()
-                    ?: throw IOException("Response was null")
+        internal fun photoInfo(title: String): CommonsService.Response {
+            return createService().api(
+                action = "query",
+                prop = "imageinfo",
+                titles = title,
+                iiprop = "url|user|canonicaltitle"
+            ).execute().body()
+                ?: throw IOException("Response was null")
         }
     }
 
-    @get:GET("w/api.php?action=query&prop=images&titles=Template:Potd/2019-03-23&format=json&imlimit=1&formatversion=2")
-    val todayQuery: Call<Response>
-
-    @get:GET("w/api.php?action=query&prop=imageinfo&titles=File:Vents%20du%20Sud%20-%20Le%20Grau-du-Roi%2004.jpg&format=json&iiprop=url|user|canonicaltitle&formatversion=2")
-    val photoInfo: Call<Response>
+    @GET("w/api.php")
+    fun api(
+        @Query("action") action: String,
+        @Query("prop") prop: String,
+        @Query("titles") titles: String,
+        @Query("format") format: String = "json",
+        @Query("imlimit") imlimit: Int = 1,
+        @Query("formatversion") formatversion: Int = 2,
+        @Query("iiprop") iiprop: String = "",
+        @Query("iiurlheight") iiurlheight: Int = 1920
+    ): Call<Response>
 
     data class Response(
-        val query: Query
+        val query: ApiQuery
     )
 
-    data class Query(
+    data class ApiQuery(
         val pages: List<Page>
     )
 
@@ -79,6 +98,7 @@ internal interface CommonsService {
         val url: String,
         val user: String,
         val descriptionurl: String,
+        val thumburl: String,
         val canonicaltitle: String
     )
 }

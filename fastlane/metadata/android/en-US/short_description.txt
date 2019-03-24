@@ -1,0 +1,1 @@
+Muzei plugin that displays the Wikimedia Commons picture of the day

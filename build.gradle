@@ -42,7 +42,6 @@ allprojects {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.21"
-    implementation "androidx.core:core-ktx:0.3"
     implementation "android.arch.work:work-runtime-ktx:1.0.0"
     implementation "com.squareup.retrofit2:retrofit:2.5.0"
     implementation "com.squareup.retrofit2:converter-moshi:2.5.0"
@@ -55,6 +54,9 @@ android {
 
     defaultConfig {
         minSdkVersion 19
+
+        versionCode 1
+        versionName "0.1.0"
     }
 
     compileOptions {

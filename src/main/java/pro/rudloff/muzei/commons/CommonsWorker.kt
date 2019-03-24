@@ -18,7 +18,7 @@ package pro.rudloff.muzei.commons
 
 import android.content.Context
 import android.util.Log
-import androidx.core.net.toUri
+import android.net.Uri
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
@@ -61,7 +61,7 @@ class CommonsWorker(
         }
 
         val photo = try {
-            CommonsService.photoInfo().query.pages[0].imageinfo?.get(0)
+            CommonsService.photoInfo(images[0].title).query.pages[0].imageinfo?.get(0)
         } catch (e: IOException) {
             Log.w(TAG, "Error reading Mediawiki API response", e)
             return Result.retry()
@@ -70,14 +70,14 @@ class CommonsWorker(
         val providerClient = ProviderContract.getProviderClient(
                 applicationContext, "pro.rudloff.muzei.commons")
         val attributionString = applicationContext.getString(R.string.attribution)
-        providerClient.addArtwork(
+        providerClient.setArtwork(
             Artwork().apply {
                 token = photo?.url
                 title = photo?.canonicaltitle?.replace("File:", "")
                 byline = photo?.user
                 attribution = attributionString
-                persistentUri = photo?.url?.toUri()
-                webUri = photo?.descriptionurl?.toUri()
+                persistentUri = Uri.parse(photo?.thumburl)
+                webUri = Uri.parse(photo?.descriptionurl)
             }
         )
         return Result.success()
