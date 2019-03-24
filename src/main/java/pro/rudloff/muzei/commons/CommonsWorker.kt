@@ -70,7 +70,7 @@ class CommonsWorker(
         val providerClient = ProviderContract.getProviderClient(
                 applicationContext, "pro.rudloff.muzei.commons")
         val attributionString = applicationContext.getString(R.string.attribution)
-        providerClient.addArtwork(
+        providerClient.setArtwork(
             Artwork().apply {
                 token = photo?.url
                 title = photo?.canonicaltitle?.replace("File:", "")
